@@ -4,6 +4,7 @@ import { ArrowRight, Search } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { CategoryRail } from "@/components/category-rail"
 import { ListingGrid } from "@/components/listing-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,7 +21,6 @@ export default function HomePage() {
   const router = useRouter()
   const [query, setQuery] = useState("")
 
-  const { data: categories } = trpc.category.list.useQuery()
   const { data: recent, isLoading } = trpc.listing.list.useQuery({
     sort: "newest",
     page: 1,
@@ -29,20 +29,21 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-5">
-      <section className="grid gap-10 border-b border-border py-16 lg:grid-cols-12 lg:py-24">
+      <section className="grid gap-10 border-b border-border py-9 sm:py-14 lg:grid-cols-12 lg:py-24">
         <div className="lg:col-span-7">
           <p className="label-caps text-primary">Student to student</p>
-          <h1 className="mt-4 font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-            The textbook you need is already
-            <br className="hidden sm:block" /> on this campus.
+          <h1 className="mt-3 font-display text-[2rem] leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
+            Someone on this campus
+            <br className="hidden sm:block" /> is already done with it.
           </h1>
-          <p className="mt-5 max-w-lg text-[0.975rem] leading-relaxed text-muted-foreground">
-            A noticeboard for used books, calculators and lab gear. Nothing is
-            paid for online — you talk to the seller and settle it in person.
+          <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[0.975rem]">
+            Textbooks, calculators, lab kit, second-hand laptops — whatever your
+            course eats through. Nothing is paid for online: you message the
+            seller and settle it in person.
           </p>
 
           <form
-            className="mt-8 flex max-w-lg gap-2"
+            className="mt-5 flex max-w-lg gap-2 sm:mt-8"
             onSubmit={(event) => {
               event.preventDefault()
               const trimmed = query.trim()
@@ -67,7 +68,9 @@ export default function HomePage() {
           </form>
         </div>
 
-        <ol className="space-y-6 border-border lg:col-span-4 lg:col-start-9 lg:border-l lg:pl-10">
+        {/* Hidden on small screens: on mobile this pushed the listing grid a
+            full extra viewport down, which is the only thing people came for. */}
+        <ol className="hidden space-y-6 border-border lg:col-span-4 lg:col-start-9 lg:block lg:border-l lg:pl-10">
           {STEPS.map((step) => (
             <li key={step.n} className="flex gap-4">
               <span className="numeric pt-0.5 text-xs text-primary">
@@ -81,24 +84,16 @@ export default function HomePage() {
         </ol>
       </section>
 
-      <section className="border-b border-border py-8">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <span className="label-caps text-muted-foreground">Categories</span>
-          {categories?.map((category) => (
-            <Link
-              key={category.id}
-              href={`/listings?category=${category.slug}`}
-              className="text-sm underline-offset-4 hover:text-primary hover:underline"
-            >
-              {category.name}
-            </Link>
-          )) ?? <Skeleton className="h-4 w-64" />}
-        </div>
+      <section className="border-b border-border py-8 sm:py-10">
+        <h2 className="label-caps mb-4 text-muted-foreground">
+          Browse by category
+        </h2>
+        <CategoryRail />
       </section>
 
-      <section className="py-14">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-3xl">Recently listed</h2>
+      <section className="py-9 sm:py-14">
+        <div className="mb-6 flex items-end justify-between sm:mb-8">
+          <h2 className="font-display text-2xl sm:text-3xl">Recently listed</h2>
           <Link
             href="/listings"
             className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary"

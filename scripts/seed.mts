@@ -9,9 +9,9 @@ const CATEGORIES = [
   { name: "Calculators", slug: "calculators", icon: "Calculator" },
   { name: "Electronics", slug: "electronics", icon: "Laptop" },
   { name: "Lab Equipment", slug: "lab-equipment", icon: "FlaskConical" },
-  { name: "Stationery", slug: "stationery", icon: "PenLine" },
+  { name: "Stationery", slug: "stationery", icon: "PencilRuler" },
   { name: "Notes & Guides", slug: "notes-and-guides", icon: "NotebookPen" },
-  { name: "Other", slug: "other", icon: "Package" },
+  { name: "Other", slug: "other", icon: "Shapes" },
 ]
 
 async function main() {

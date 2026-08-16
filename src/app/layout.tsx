@@ -49,7 +49,9 @@ export default function RootLayout({
           <div className="flex min-h-dvh flex-col">
             {/* SiteHeader reads useSearchParams, which opts the tree out of
                 prerendering unless it sits behind its own boundary. */}
-            <Suspense fallback={<div className="h-16 border-b border-border" />}>
+            <Suspense
+              fallback={<div className="h-16 border-b border-border" />}
+            >
               <SiteHeader />
             </Suspense>
             <main className="flex-1">{children}</main>
