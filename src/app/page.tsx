@@ -12,9 +12,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { trpc } from "@/trpc/client"
 
 const STEPS = [
-  { n: "01", text: "Post what you no longer need, with photos and a price." },
-  { n: "02", text: "Buyers find it by course, category or keyword." },
-  { n: "03", text: "You agree the details in chat and meet on campus." },
+  "Post what you no longer need, with photos and a price.",
+  "Buyers filter by category, condition or price to find it.",
+  "You settle the details in chat and meet on campus.",
 ]
 
 export default function HomePage() {
@@ -69,19 +69,31 @@ export default function HomePage() {
         </div>
 
         {/* Hidden on small screens: on mobile this pushed the listing grid a
-            full extra viewport down, which is the only thing people came for. */}
-        <ol className="hidden space-y-6 border-border lg:col-span-4 lg:col-start-9 lg:block lg:border-l lg:pl-10">
-          {STEPS.map((step) => (
-            <li key={step.n} className="flex gap-4">
-              <span className="numeric pt-0.5 text-xs text-primary">
-                {step.n}
-              </span>
-              <span className="text-sm leading-relaxed text-muted-foreground">
-                {step.text}
-              </span>
-            </li>
-          ))}
-        </ol>
+            full extra viewport down, which is the only thing people came for.
+            self-start stops the grid stretching it into a half-empty column. */}
+        <aside className="hidden self-start overflow-hidden rounded-md border border-border bg-card lg:col-span-4 lg:col-start-9 lg:block">
+          <p className="label-caps border-b border-border px-4 py-3 text-muted-foreground">
+            How it works
+          </p>
+
+          <ol className="divide-y divide-border">
+            {STEPS.map((step, index) => (
+              <li key={step} className="grid grid-cols-[2.75rem_1fr]">
+                {/* The number sits in its own ruled gutter, like a ledger column. */}
+                <span className="numeric border-r border-border py-3.5 text-center text-xs text-primary">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="px-4 py-3.5 text-sm leading-relaxed">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <p className="border-t border-border bg-background px-4 py-3 text-xs text-muted-foreground">
+            No payment is taken online. Cash or transfer, in person.
+          </p>
+        </aside>
       </section>
 
       <section className="border-b border-border py-8 sm:py-10">
