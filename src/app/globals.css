@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plex-sans);
-  --font-mono: var(--font-plex-mono);
-  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-poppins);
+  --font-display: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -123,11 +123,19 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "cv05" 1;
   }
   ::selection {
     background: var(--primary);
     color: var(--primary-foreground);
+  }
+  /*
+   * Everything is Poppins now, so "display" is a weight-and-tracking role
+   * rather than a different family. Poppins is geometric and wide: at large
+   * sizes it needs negative tracking or headlines sprawl.
+   */
+  .font-display {
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 }
 
@@ -140,9 +148,12 @@
   font-weight: 500;
 }
 
-/* Prices, counts and ids: tabular mono so columns line up down the grid. */
+/*
+ * Prices, counts and ids. There is no separate mono face any more, so the
+ * alignment comes from tabular figures alone - every digit the same width, so
+ * price columns still line up down the grid.
+ */
 @utility numeric {
-  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }

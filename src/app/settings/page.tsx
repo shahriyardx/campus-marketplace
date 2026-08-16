@@ -62,7 +62,7 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-xl px-5 py-12">
       <header className="border-b border-border pb-6">
-        <h1 className="font-display text-4xl">Profile</h1>
+        <h1 className="font-display text-3xl">Profile</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Buyers see your name, photo, campus and bio. Your phone number stays
           private — messages go through the site.

@@ -12,7 +12,7 @@ person. **No payments are processed by this site.**
 | Auth      | Firebase Auth (Google + email/password) via session cookies |
 | Database  | MongoDB + Mongoose                                          |
 | API       | tRPC 11 + TanStack Query + SuperJSON                        |
-| UI        | Tailwind 4 + shadcn/ui (`radix-nova`) + lucide              |
+| UI        | Tailwind 4 + shadcn/ui (`radix-nova`) + lucide + Poppins    |
 | Images    | imgbb, proxied through `/api/upload`                        |
 | Tooling   | bun, Biome                                                  |
 
@@ -63,6 +63,23 @@ person. **No payments are processed by this site.**
   session; ownership is re-checked per listing before any write.
 - `src/lib/schemas.ts` — zod schemas shared by the forms and the procedures, so
   client and server validation cannot drift.
+
+## Design system
+
+Warm paper background, ink text, and a single rust accent — no second accent
+colour. Structure comes from hairline rules and spacing rather than shadows.
+
+Poppins is the only typeface. `--font-sans`, `--font-display` and `--font-mono`
+in `globals.css` all point at it, so `font-display` is a **weight and tracking
+role** (600, `-0.03em`), not a different family. Two utilities carry the rest:
+
+| Utility       | Use                                                            |
+| ------------- | ---------------------------------------------------------------- |
+| `label-caps`  | Small uppercase eyebrows and metadata rows                        |
+| `numeric`     | Prices and counts — tabular figures so columns align down a grid  |
+
+The category index and the how-it-works card share one trick: a 1px gap over a
+border-coloured background draws the dividing rules for free.
 
 ### Things worth knowing
 

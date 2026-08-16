@@ -73,7 +73,7 @@ function BrowseListings() {
     <div className="mx-auto max-w-6xl px-5 py-10">
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
         <div>
-          <h1 className="font-display text-4xl">
+          <h1 className="font-display text-3xl">
             {q ? `“${q}”` : "All listings"}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">

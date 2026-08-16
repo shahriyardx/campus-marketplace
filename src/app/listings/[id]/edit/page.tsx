@@ -42,7 +42,7 @@ export default function EditListingPage() {
     <div className="mx-auto max-w-2xl px-5 py-12">
       <header className="border-b border-border pb-6">
         <p className="label-caps text-primary">Editing</p>
-        <h1 className="mt-3 font-display text-4xl">{listing.title}</h1>
+        <h1 className="mt-3 font-display text-3xl">{listing.title}</h1>
       </header>
 
       <div className="pt-8">

@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { Logo } from "@/components/logo"
 import { signOutUser } from "@/lib/auth-client"
 import { trpc } from "@/trpc/client"
 
@@ -58,8 +59,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-5">
-        <Link href="/" className="shrink-0 font-display text-2xl leading-none">
-          Campus<span className="text-primary">.</span>
+        <Link
+          href="/"
+          aria-label="Campus Marketplace home"
+          className="shrink-0"
+        >
+          <Logo />
         </Link>
 
         <form

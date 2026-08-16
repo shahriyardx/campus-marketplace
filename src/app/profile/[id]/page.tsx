@@ -58,7 +58,7 @@ export default function ProfilePage() {
         </Avatar>
 
         <div className="min-w-0 flex-1">
-          <h1 className="font-display text-4xl">{profile.name}</h1>
+          <h1 className="font-display text-3xl">{profile.name}</h1>
           <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
             {profile.campus ? (
               <span className="inline-flex items-center gap-1.5">

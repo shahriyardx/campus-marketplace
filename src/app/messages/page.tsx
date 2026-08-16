@@ -18,7 +18,7 @@ export default function MessagesPage() {
   return (
     <div className="mx-auto max-w-3xl px-5 py-10">
       <header className="border-b border-border pb-6">
-        <h1 className="font-display text-4xl">Messages</h1>
+        <h1 className="font-display text-3xl">Messages</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           One thread per item. Agree the price and meeting spot here.
         </p>

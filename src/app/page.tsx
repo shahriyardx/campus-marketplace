@@ -32,9 +32,10 @@ export default function HomePage() {
       <section className="grid gap-10 border-b border-border py-9 sm:py-14 lg:grid-cols-12 lg:py-24">
         <div className="lg:col-span-7">
           <p className="label-caps text-primary">Student to student</p>
-          <h1 className="mt-3 font-display text-[2rem] leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-            Someone on this campus
-            <br className="hidden sm:block" /> is already done with it.
+          {/* text-balance rather than a hardcoded <br>: Poppins is wide, and a
+              manual break landed a single word on its own line. */}
+          <h1 className="mt-3 max-w-[16ch] font-display text-[1.75rem] leading-[1.15] text-balance sm:mt-4 sm:text-[2.25rem] lg:text-[2.75rem] lg:leading-[1.1]">
+            Someone on this campus is already done with it.
           </h1>
           <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-[0.975rem]">
             Textbooks, calculators, lab kit, second-hand laptops — whatever your

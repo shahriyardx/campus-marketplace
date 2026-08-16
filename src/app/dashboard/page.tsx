@@ -64,7 +64,7 @@ export default function DashboardPage() {
     <div className="mx-auto max-w-4xl px-5 py-10">
       <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-6">
         <div>
-          <h1 className="font-display text-4xl">My listings</h1>
+          <h1 className="font-display text-3xl">My listings</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Mark an item reserved while you arrange a meet-up, sold when it is
             gone.

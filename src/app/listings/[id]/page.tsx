@@ -157,7 +157,7 @@ export default function ListingDetailPage() {
             ) : null}
           </div>
 
-          <h1 className="mt-3 font-display text-4xl leading-tight">
+          <h1 className="mt-3 font-display text-3xl leading-tight">
             {listing.title}
           </h1>
 

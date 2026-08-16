@@ -41,7 +41,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <h1 className="font-display text-4xl">Create your account</h1>
+      <h1 className="font-display text-3xl">Create your account</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Free, and no email confirmation to wait for.
       </p>

@@ -47,7 +47,7 @@ function LoginForm() {
 
   return (
     <>
-      <h1 className="font-display text-4xl">Welcome back</h1>
+      <h1 className="font-display text-3xl">Welcome back</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Sign in to post items, save favourites and message sellers.
       </p>
