@@ -1,26 +1,26 @@
-import { toCategoryDTO } from "@/lib/serialize"
-import { Category, Listing } from "@/models"
+import { CATEGORIES } from "@/lib/constants"
+import { Listing } from "@/models"
 import { createTRPCRouter, publicProcedure } from "../init"
 
 export const categoryRouter = createTRPCRouter({
+  /**
+   * The category list itself is a constant; only the counts need the database.
+   * Returned in the order declared in CATEGORIES rather than alphabetically,
+   * so the numbering in the UI is stable and intentional.
+   */
   list: publicProcedure.query(async () => {
-    // One aggregate for all counts rather than a query per category. Only
-    // AVAILABLE items count, so a category full of sold books reads as empty.
-    const [categories, counts] = await Promise.all([
-      Category.find().sort({ name: 1 }).lean(),
-      Listing.aggregate<{ _id: unknown; count: number }>([
-        { $match: { status: "AVAILABLE" } },
-        { $group: { _id: "$category", count: { $sum: 1 } } },
-      ]),
+    const counts = await Listing.aggregate<{ _id: string; count: number }>([
+      { $match: { status: "AVAILABLE" } },
+      { $group: { _id: "$category", count: { $sum: 1 } } },
     ])
 
-    const countBySlug = new Map(
-      counts.map((row) => [String(row._id), row.count]),
-    )
+    const countBySlug = new Map(counts.map((row) => [row._id, row.count]))
 
-    return categories.map((category) => ({
-      ...toCategoryDTO(category),
-      listingCount: countBySlug.get(String(category._id)) ?? 0,
+    return CATEGORIES.map((category) => ({
+      slug: category.slug,
+      name: category.name,
+      icon: category.icon,
+      listingCount: countBySlug.get(category.slug) ?? 0,
     }))
   }),
 })

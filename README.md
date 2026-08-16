@@ -33,11 +33,18 @@ person. **No payments are processed by this site.**
 3. **Fill `.env`** — copy `.env.example` and set every value. `IMGBB_API_KEY`
    comes from <https://api.imgbb.com/>; photo upload returns a 500 until it is set.
 
-4. **Seed the categories, then run**
+4. **Run it**
 
    ```bash
-   bun run db:seed
    bun dev
+   ```
+
+5. **Optional — fill it with demo data** so the grid, inbox and favourites are
+   not empty:
+
+   ```bash
+   bun run db:demo         # ~12 sellers, ~49 listings, threads and favourites
+   bun run db:demo:reset   # remove all of it again
    ```
 
 ## Scripts
@@ -46,17 +53,29 @@ person. **No payments are processed by this site.**
 | ------------------- | ----------------------------------------------- |
 | `bun dev`           | Dev server on <http://localhost:3000>            |
 | `bun run build`     | Production build                                 |
-| `bun run db:seed`   | Upserts the item categories (safe to re-run)     |
+| `bun run db:demo`   | Demo sellers, listings, favourites, message threads |
+| `bun run db:demo:reset` | Removes everything `db:demo` created         |
 | `bun run lint`      | Biome check                                      |
 | `bun run format`    | Biome format                                     |
 
-> The seed script runs under `node`, not `bun` — bun's `node:v8` shim is
+> The seed scripts run under `node`, not `bun` — bun's `node:v8` shim is
 > incomplete and `bson` fails to load on it.
+
+Demo data is safe to run against a database with real accounts in it. Every
+document it creates traces back to a user whose `uid` starts with `demo:`, so
+the reset removes only its own output. Demo photos come from `picsum.photos`;
+real uploads still go to imgbb.
 
 ## How it fits together
 
 - `src/models/` — Mongoose schemas. Import them from `src/models/index.ts` so
   every model is registered before a `populate()` runs.
+- `src/lib/constants.ts` — the category list. **Categories are hardcoded, not a
+  collection.** There is no admin UI and no plan for one, so a `categories`
+  table would just be rows nobody can edit plus a join on every listing query.
+  A listing stores the category *slug*, which is also the `?category=` URL
+  value — renaming a slug is a data migration; changing its `name` or `icon`
+  is free.
 - `src/lib/session.ts` — verifies the Firebase session cookie and loads the
   Mongo user. Used by both server components and the tRPC context.
 - `src/trpc/routers/` — one router per domain. `protectedProcedure` requires a
@@ -90,3 +109,6 @@ border-coloured background draws the dividing rules for free.
 - **Messaging polls every 5 seconds.** No websockets, deliberately.
 - Local Mongo is a single node, so there is no replica set and **transactions
   are unavailable**. Nothing in the code relies on them.
+- Models are registered as `models.X ?? model("X", schema)` so hot reload does
+  not re-register them. The catch: **after changing a schema you must restart
+  the dev server**, or Mongoose keeps casting against the old one.

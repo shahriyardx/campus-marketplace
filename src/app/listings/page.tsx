@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sheet"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
+  CATEGORY_SLUGS,
   LISTING_CONDITIONS,
   LISTING_SORTS,
   LISTING_STATUSES,
@@ -49,7 +50,8 @@ function BrowseListings() {
 
   const { data, isLoading } = trpc.listing.list.useQuery({
     q,
-    categorySlug: searchParams.get("category") ?? undefined,
+    // An unrecognised ?category= is dropped rather than sent to the server.
+    categorySlug: pickFrom(CATEGORY_SLUGS, searchParams.get("category")),
     condition: pickFrom(LISTING_CONDITIONS, searchParams.get("condition")),
     status:
       pickFrom(

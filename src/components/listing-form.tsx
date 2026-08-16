@@ -48,7 +48,7 @@ export function ListingForm({
       description: "",
       price: 0,
       condition: "GOOD",
-      categoryId: "",
+      categorySlug: undefined,
       location: "",
       images: [],
       ...defaultValues,
@@ -136,7 +136,7 @@ export function ListingForm({
           <Label>Category</Label>
           <Controller
             control={control}
-            name="categoryId"
+            name="categorySlug"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full bg-card">
@@ -144,7 +144,7 @@ export function ListingForm({
                 </SelectTrigger>
                 <SelectContent>
                   {categories?.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
+                    <SelectItem key={category.slug} value={category.slug}>
                       {category.name}
                     </SelectItem>
                   ))}
@@ -152,7 +152,7 @@ export function ListingForm({
               </Select>
             )}
           />
-          <FieldError message={errors.categoryId?.message} />
+          <FieldError message={errors.categorySlug?.message} />
         </section>
 
         <section className="space-y-2">

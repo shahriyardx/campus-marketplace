@@ -86,7 +86,7 @@ export function ListingFilters({ onApplied }: { onApplied?: () => void }) {
           <SelectContent>
             <SelectItem value={ANY}>All categories</SelectItem>
             {categories?.map((item) => (
-              <SelectItem key={item.id} value={item.slug}>
+              <SelectItem key={item.slug} value={item.slug}>
                 {item.name}
               </SelectItem>
             ))}

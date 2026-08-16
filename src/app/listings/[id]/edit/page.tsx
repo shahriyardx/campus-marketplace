@@ -53,7 +53,7 @@ export default function EditListingPage() {
             description: listing.description,
             price: listing.price,
             condition: listing.condition,
-            categoryId: listing.category?.id ?? "",
+            categorySlug: listing.category?.slug ?? "other",
             location: listing.location ?? "",
             images: listing.images.map((image) => ({
               url: image.url,

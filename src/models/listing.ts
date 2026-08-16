@@ -6,7 +6,11 @@ import {
   type Model,
   type Types,
 } from "mongoose"
-import { LISTING_CONDITIONS, LISTING_STATUSES } from "@/lib/constants"
+import {
+  CATEGORY_SLUGS,
+  LISTING_CONDITIONS,
+  LISTING_STATUSES,
+} from "@/lib/constants"
 
 // Images never exist without their listing, so they are embedded rather than
 // living in their own collection.
@@ -40,11 +44,9 @@ const listingSchema = new Schema(
       required: true,
     },
     location: { type: String, default: null },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
-      required: true,
-    },
+    // A slug from CATEGORIES, not a reference. Categories live in code, so
+    // there is nothing to join against and the enum is the integrity check.
+    category: { type: String, enum: CATEGORY_SLUGS, required: true },
     seller: { type: Schema.Types.ObjectId, ref: "User", required: true },
     images: { type: [listingImageSchema], default: [] },
   },

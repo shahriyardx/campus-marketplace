@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "db:seed": "node --env-file=.env scripts/seed.mts"
+    "db:demo": "node --env-file=.env scripts/seed-demo.mts",
+    "db:demo:reset": "node --env-file=.env scripts/seed-demo.mts --reset"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.0",

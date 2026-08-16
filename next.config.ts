@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "i.ibb.co" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      // Demo seed data only (scripts/seed-demo.mts). Real uploads go to imgbb.
+      { protocol: "https", hostname: "picsum.photos" },
     ],
   },
 }

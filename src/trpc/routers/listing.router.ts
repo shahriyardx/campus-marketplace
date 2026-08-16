@@ -9,7 +9,6 @@ import {
 } from "@/lib/schemas"
 import { toListingDTO } from "@/lib/serialize"
 import {
-  Category,
   Conversation,
   Favorite,
   Listing,
@@ -18,10 +17,8 @@ import {
 } from "@/models"
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../init"
 
-const POPULATE = [
-  { path: "category", select: "name slug icon" },
-  { path: "seller", select: "name image campus bio createdAt" },
-]
+// Only the seller needs joining now; the category is a slug resolved in code.
+const POPULATE = [{ path: "seller", select: "name image campus bio createdAt" }]
 
 /** User input goes straight into a $regex, so metacharacters must be neutralised. */
 function escapeRegex(value: string) {
@@ -61,14 +58,9 @@ export const listingRouter = createTRPCRouter({
       where.$or = [{ title: pattern }, { description: pattern }]
     }
 
-    if (input.categorySlug) {
-      const category = await Category.findOne({
-        slug: input.categorySlug,
-      }).select("_id")
-      // An unknown slug must return nothing, not everything.
-      if (!category) return { items: [], total: 0, page: input.page, pages: 0 }
-      where.category = category._id
-    }
+    // The slug is stored on the listing itself, so this is a direct match.
+    // An unknown slug matches nothing, which is the behaviour we want.
+    if (input.categorySlug) where.category = input.categorySlug
 
     if (input.sellerId) where.seller = input.sellerId
     if (input.condition) where.condition = input.condition
@@ -117,21 +109,13 @@ export const listingRouter = createTRPCRouter({
   create: protectedProcedure
     .input(listingInputSchema)
     .mutation(async ({ ctx, input }) => {
-      const category = await Category.findById(input.categoryId).select("_id")
-      if (!category) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown category",
-        })
-      }
-
       const created = await Listing.create({
         title: input.title,
         description: input.description,
         price: input.price,
         condition: input.condition,
         location: input.location || null,
-        category: category._id,
+        category: input.categorySlug,
         // Never take the seller from client input.
         seller: ctx.user._id,
         images: input.images.map((image) => ({
@@ -149,23 +133,13 @@ export const listingRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const listing = await requireOwnedListing(input.id, ctx.user._id)
 
-      const category = await Category.findById(input.data.categoryId).select(
-        "_id",
-      )
-      if (!category) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown category",
-        })
-      }
-
       listing.set({
         title: input.data.title,
         description: input.data.description,
         price: input.data.price,
         condition: input.data.condition,
         location: input.data.location || null,
-        category: category._id,
+        category: input.data.categorySlug,
         images: input.data.images.map((image) => ({
           url: image.url,
           thumbUrl: image.thumbUrl ?? null,

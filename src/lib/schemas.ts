@@ -1,5 +1,6 @@
 import { z } from "zod"
 import {
+  CATEGORY_SLUGS,
   LISTING_CONDITIONS,
   LISTING_SORTS,
   LISTING_STATUSES,
@@ -34,7 +35,9 @@ export const listingInputSchema = z.object({
     .min(0, "Price cannot be negative")
     .max(10_000_000),
   condition: z.enum(LISTING_CONDITIONS),
-  categoryId: objectId,
+  // Validated against the hardcoded list, so an unknown slug is rejected at
+  // the edge and the router does not need to look anything up.
+  categorySlug: z.enum(CATEGORY_SLUGS, { message: "Pick a category" }),
   location: z.string().trim().max(120).optional().or(z.literal("")),
   images: z
     .array(listingImageSchema)
@@ -46,7 +49,7 @@ export type ListingInput = z.infer<typeof listingInputSchema>
 
 export const listingFilterSchema = z.object({
   q: z.string().trim().max(120).optional(),
-  categorySlug: z.string().trim().max(120).optional(),
+  categorySlug: z.enum(CATEGORY_SLUGS).optional(),
   minPrice: z.number().int().min(0).optional(),
   maxPrice: z.number().int().min(0).optional(),
   condition: z.enum(LISTING_CONDITIONS).optional(),

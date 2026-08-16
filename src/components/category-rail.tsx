@@ -53,7 +53,7 @@ export function CategoryRail({ activeSlug }: { activeSlug?: string }) {
 
         return (
           <Link
-            key={category.id}
+            key={category.slug}
             href={`/listings?category=${category.slug}`}
             className={cn(
               "group relative flex h-[5.5rem] flex-col justify-between p-3.5 transition-colors sm:p-4",

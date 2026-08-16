@@ -1,14 +1,20 @@
-import type { ListingCondition, ListingStatus } from "./constants"
+import {
+  type CategorySlug,
+  findCategory,
+  type ListingCondition,
+  type ListingStatus,
+} from "./constants"
 
 // Mongoose documents carry _id, __v and prototype methods that tRPC cannot send
 // over the wire. These mappers produce plain DTOs instead. Do not reach for
 // JSON.parse(JSON.stringify(doc)) - it silently turns Dates into strings.
 
+// Resolved from the hardcoded CATEGORIES list, not from a database row, so
+// there is no id here - the slug is the identifier.
 export type CategoryDTO = {
-  id: string
   name: string
-  slug: string
-  icon: string | null
+  slug: CategorySlug
+  icon: string
 }
 
 export type PublicUserDTO = {
@@ -73,13 +79,12 @@ const id = (value: Doc): string => String(value?._id ?? value)
 const isPopulated = (value: Doc): boolean =>
   Boolean(value) && typeof value === "object" && "_id" in value
 
-export function toCategoryDTO(doc: Doc): CategoryDTO {
-  return {
-    id: id(doc),
-    name: doc.name,
-    slug: doc.slug,
-    icon: doc.icon ?? null,
-  }
+export function toCategoryDTO(
+  slug: string | null | undefined,
+): CategoryDTO | null {
+  const category = findCategory(slug)
+  if (!category) return null
+  return { name: category.name, slug: category.slug, icon: category.icon }
 }
 
 export function toPublicUserDTO(doc: Doc): PublicUserDTO {
@@ -114,7 +119,9 @@ export function toListingDTO(doc: Doc): ListingDTO {
       url: image.url,
       thumbUrl: image.thumbUrl ?? null,
     })),
-    category: isPopulated(doc.category) ? toCategoryDTO(doc.category) : null,
+    // doc.category is a slug string; an unknown one resolves to null rather
+    // than throwing, so a legacy row cannot take a whole page down.
+    category: toCategoryDTO(doc.category),
     seller: isPopulated(doc.seller) ? toPublicUserDTO(doc.seller) : null,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
