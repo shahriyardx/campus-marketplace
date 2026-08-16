@@ -1,24 +1,32 @@
 import { cn } from "@/lib/utils"
 
 /**
- * Ink tile holding a C set in the page's own display face. Drawn with type
- * rather than an SVG glyph so the mark inherits the brand's typography instead
- * of sitting beside it, and so it flips for dark mode on its own (the
- * foreground/background pair swaps).
+ * An open C cradling a dot: the initial, and a cycle left deliberately
+ * unclosed with the item sitting in the gap. Two shapes only, so it still
+ * reads at favicon size.
+ *
+ * The arc is one path — a large counterclockwise sweep between two points on
+ * the right-hand side, which is what leaves the mouth of the C open. The
+ * stroke inherits currentColor so the mark takes the surrounding text colour
+ * and needs no dark-mode variant; only the dot is pinned to the accent.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <span
-      aria-hidden="true"
-      className={cn(
-        "grid size-8 shrink-0 place-items-center rounded-[0.3rem] bg-foreground",
-        className,
-      )}
+    <svg
+      viewBox="0 0 32 32"
+      className={cn("size-8 shrink-0", className)}
+      role="img"
+      aria-label="Campus Marketplace"
     >
-      <span className="font-display text-[1.25em] leading-none text-background">
-        C
-      </span>
-    </span>
+      <path
+        d="M23.07 7.57A11 11 0 1 0 23.07 24.43"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4.5"
+        strokeLinecap="round"
+      />
+      <circle cx="24.6" cy="16" r="3.1" className="fill-primary" />
+    </svg>
   )
 }
 

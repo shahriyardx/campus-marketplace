@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Favicon variant of the logo mark. A browser tab renders this around 16px,
+    where a thin outlined C on a transparent ground disappears against a dark
+    tab strip, so this version sits on a solid ink tile and thickens the stroke.
+    Colours are the brand tokens resolved to hex, since a standalone SVG cannot
+    read the CSS custom properties in globals.css.
+  -->
+  <rect width="32" height="32" rx="7" fill="#1c1612" />
+  <path
+    d="M22.04 8.8A9.4 9.4 0 1 0 22.04 23.2"
+    fill="none"
+    stroke="#fcfaf7"
+    stroke-width="4.6"
+    stroke-linecap="round"
+  />
+  <circle cx="24.1" cy="16" r="3.05" fill="#a9411a" />
+</svg>
